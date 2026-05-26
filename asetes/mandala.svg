@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#b8922a"/>
+      <stop offset="50%" style="stop-color:#dfb950"/>
+      <stop offset="100%" style="stop-color:#b8922a"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <g transform="translate(200, 0)" fill="none" stroke="url(#gold)" opacity="0.85">
+    <!-- Center point drop -->
+    <path d="M0,0 L0,30" stroke-width="1.5" stroke-dasharray="2,2"/>
+    <circle cx="0" cy="34" r="3" fill="url(#gold)"/>
+
+    <!-- Inner rings -->
+    <path d="M-60,0 A60,60 0 0,0 60,0" stroke-width="1"/>
+    <path d="M-75,0 A75,75 0 0,0 75,0" stroke-width="1.5"/>
+
+    <!-- Petals -->
+    <path d="M-60,0 A30,40 0 0,0 -30,60 A30,40 0 0,0 0,75 A30,40 0 0,0 30,60 A30,40 0 0,0 60,0" stroke-width="1.2"/>
+    <path d="M-40,0 A20,30 0 0,0 -20,40 A20,30 0 0,0 0,55 A20,30 0 0,0 20,40 A20,30 0 0,0 40,0" stroke-width="0.8"/>
+
+    <!-- Outer scallop -->
+    <path d="M-100,0 A25,25 0 0,0 -70,30 A25,25 0 0,0 -35,50 A25,25 0 0,0 0,60 A25,25 0 0,0 35,50 A25,25 0 0,0 70,30 A25,25 0 0,0 100,0" stroke-width="1.5"/>
+
+    <!-- Outer fine ring -->
+    <path d="M-115,0 A115,115 0 0,0 115,0" stroke-width="0.5" stroke-dasharray="4,4"/>
+
+    <!-- Decorative dots -->
+    <circle cx="-85" cy="15" r="1.5" fill="url(#gold)"/>
+    <circle cx="-52" cy="40" r="1.5" fill="url(#gold)"/>
+    <circle cx="-16" cy="54" r="1.5" fill="url(#gold)"/>
+    <circle cx="16" cy="54" r="1.5" fill="url(#gold)"/>
+    <circle cx="52" cy="40" r="1.5" fill="url(#gold)"/>
+    <circle cx="85" cy="15" r="1.5" fill="url(#gold)"/>
+  </g>
+</svg>
