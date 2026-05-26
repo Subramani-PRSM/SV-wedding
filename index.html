@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SUBRAMANI & VARSHINI — A Love Story | 28·05·2026</title>
+  <meta name="description"
+    content="You are warmly invited to celebrate the sacred wedding of SUBRAMANI & VARSHINI — a cinematic love story unfolding in Kolarpatti, India." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Great+Vibes&family=Outfit:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════════════ CURSOR ══════════════════════ -->
+  <div id="cursor" class="cursor"></div>
+  <div id="cursor-trail" class="cursor-trail"></div>
+
+  <!-- ══════════════════════ CANVAS (Petals) ══════════════════════ -->
+  <canvas id="petal-canvas"></canvas>
+
+  <!-- ══════════════════════ LOADER (Sacred Temple Arch & Interactive Diya) ══════════════════════ -->
+  <div id="loader" class="loader-overlay">
+    <!-- Ambient gold sparkle dust background -->
+    <canvas id="loader-sparkles"></canvas>
+
+    <!-- Left Temple Gate Door with Golden Arch SVG -->
+    <div class="loader-gate loader-gate-left">
+      <svg class="gate-svg" viewBox="0 0 400 800" preserveAspectRatio="none" fill="none" stroke="var(--gold)"
+        stroke-width="2">
+        <line x1="10" y1="10" x2="400" y2="10" stroke-dasharray="10 5" />
+        <line x1="10" y1="10" x2="10" y2="790" />
+        <line x1="10" y1="790" x2="400" y2="790" stroke-dasharray="10 5" />
+
+        <rect x="30" y="80" width="40" height="640" rx="5" />
+        <line x1="50" y1="80" x2="50" y2="720" />
+        <rect x="25" y="140" width="50" height="60" rx="3" />
+        <rect x="25" y="520" width="50" height="60" rx="3" />
+
+        <path class="draw-path" d="M 70 140 C 180 140, 400 240, 400 350" />
+        <path class="draw-path" d="M 70 180 C 160 180, 400 280, 400 380" />
+        <path class="draw-path" d="M 70 580 C 180 580, 400 480, 400 370" />
+
+        <path class="draw-path-fast" d="M 200 190 Q 210 170, 220 190" />
+        <path class="draw-path-fast" d="M 300 245 Q 310 225, 320 245" />
+      </svg>
+    </div>
+    <div class="loader-light-bloom"></div>
+    <!-- Right Temple Gate Door with Golden Arch SVG -->
+    <div class="loader-gate loader-gate-right">
+      <svg class="gate-svg" viewBox="0 0 400 800" preserveAspectRatio="none" fill="none" stroke="var(--gold)"
+        stroke-width="2">
+        <line x1="390" y1="10" x2="0" y2="10" stroke-dasharray="10 5" />
+        <line x1="390" y1="10" x2="390" y2="790" />
+        <line x1="390" y1="790" x2="0" y2="790" stroke-dasharray="10 5" />
+
+        <rect x="330" y="80" width="40" height="640" rx="5" />
+        <line x1="350" y1="80" x2="350" y2="720" />
+        <rect x="325" y="140" width="50" height="60" rx="3" />
+        <rect x="325" y="520" width="50" height="60" rx="3" />
+
+        <path class="draw-path" d="M 330 140 C 220 140, 0 240, 0 350" />
+        <path class="draw-path" d="M 330 180 C 240 180, 0 280, 0 380" />
+        <path class="draw-path" d="M 330 580 C 220 580, 0 480, 0 370" />
+
+        <path class="draw-path-fast" d="M 200 190 Q 190 170, 180 190" />
+        <path class="draw-path-fast" d="M 100 245 Q 90 225, 80 245" />
+      </svg>
+    </div>
+
+    <!-- Centre content (Diya and wedding headers) -->
+    <div class="loader-content">
+
+      <!-- Invocation text -->
+      <p class="loader-invocation">திருமண அழைப்பிதழ்</p>
+
+      <!-- Names -->
+      <p class="loader-names">SUBRAMANI <span>&amp;</span> VARSHINI</p>
+
+      <!-- Tagline -->
+      <p class="loader-tagline">A Sacred Union Begins</p>
+
+      <!-- Interactive Diya element -->
+      <div class="interactive-diya-container">
+        <div class="diya-shockwave" id="diya-shockwave"></div>
+        <div class="interactive-diya" id="interactive-diya" role="button"
+          aria-label="Light the Diya to Open invitation">
+          <div class="diya-flame-halo" id="diya-flame-halo"></div>
+          <div class="diya-flame-flair" id="diya-flame"></div>
+          <div class="diya-ceramic-body"></div>
+        </div>
+      </div>
+
+      <!-- Instruction prompt -->
+      <p class="diya-prompt" id="diya-prompt">✦ Touch the Diya to light the way ✦</p>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════ NAV ══════════════════════ -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-logo">S <span>&amp;</span> V</div>
+    <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#invitation">Invite</a></li>
+      <li><a href="#couple">Couple</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#location">Venue</a></li>
+    </ul>
+    <button class="nav-burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════ HERO ══════════════════════ -->
+  <section id="hero" class="hero-section">
+
+    <!-- ✅ WRAP EVERYTHING INSIDE THIS -->
+    <div class="hero-zoom-layer">
+
+      <div class="hero-video-bg">
+        <div class="hero-bg-img" id="hero-bg-img"></div>
+        <div class="hero-gradient-overlay"></div>
+      </div>
+
+      <!-- Floating diya lamps -->
+      <div class="diya-row top-diyas">
+        <img src="assets/diya.svg" alt="" class="diya diya-float" style="--d:0s" />
+        <img src="assets/diya.svg" alt="" class="diya diya-float" style="--d:0.4s" />
+        <img src="assets/diya.svg" alt="" class="diya diya-float" style="--d:0.8s" />
+        <img src="assets/diya.svg" alt="" class="diya diya-float" style="--d:1.2s" />
+        <img src="assets/diya.svg" alt="" class="diya diya-float" style="--d:1.6s" />
+      </div>
+
+      <!-- Floral corners -->
+
+
+      <div class="hero-top-wrap">
+        <p class="hero-eyebrow anim-fade-up" data-delay="0.3">✦ THE WEDDING CELEBRATION OF ✦</p>
+
+        <div class="hero-names-wrap anim-fade-up" data-delay="0.6">
+          <h1 class="name-groom">SUBRAMANI</h1>
+          <div class="name-and">
+            <span class="and-line"></span>
+            <span class="and-text">and</span>
+            <span class="and-line"></span>
+          </div>
+          <h1 class="name-bride">VARSHINI</h1>
+        </div>
+
+        <div class="hero-date-wrap anim-fade-up" data-delay="1.0">
+          <span class="hd-line"></span>
+          <time class="hd-text" datetime="2026-02-14">28 · 05 · 2026</time>
+          <span class="hd-line"></span>
+        </div>
+      </div>
+
+      <div class="hero-bottom-wrap">
+        <p class="hero-location anim-fade-up" data-delay="1.2"></p>
+
+        <!-- Countdown -->
+        <div class="countdown-wrap anim-fade-up" data-delay="1.5" id="countdown">
+          <div class="cd-item"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Days</span></div>
+          <div class="cd-sep">✦</div>
+          <div class="cd-item"><span class="cd-num" id="cd-hrs">00</span><span class="cd-label">Hours</span></div>
+          <div class="cd-sep">✦</div>
+          <div class="cd-item"><span class="cd-num" id="cd-min">00</span><span class="cd-label">Minutes</span></div>
+          <div class="cd-sep">✦</div>
+          <div class="cd-item"><span class="cd-num" id="cd-sec">00</span><span class="cd-label">Seconds</span></div>
+        </div>
+
+        <a href="#invitation" class="hero-cta anim-fade-up" data-delay="1.8">
+          <span>Open Invitation</span>
+          <svg viewBox="0 0 24 24" width="16" height="16">
+            <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line-anim"></div>
+      </div>
+
+    </div>
+    <!-- ✅ END hero-zoom-layer -->
+
+  </section>
+
+  <!-- ══════════════════════ SAVE THE DATE RIBBON ══════════════════════ -->
+  <div class="ribbon-section">
+    <div class="ribbon-track">
+      <span>Save the Date · 28 May · Kolarpatti · </span>
+      <span>Save the Date · 28 May · Kolarpatti · </span>
+      <span>Save the Date · 28 May · Kolarpatti · </span>
+      <span>Save the Date · 28 May · Kolarpatti · </span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ INVITATION CARD ══════════════════════ -->
+  <section id="invitation" class="section invitation-section">
+    <div class="bg-mandala-pattern"></div>
+    <div class="section-inner">
+      <div class="sec-header anim-fade-up" data-delay="0.1">
+        <img src="assets/mandala.svg" class="sec-mandala anim-spin-in" alt="" />
+        <h2 class="sec-title">The Invitation</h2>
+        <p class="sec-script">With Joyful Hearts</p>
+      </div>
+
+      <!-- Flip Card -->
+      <div class="flip-card-scene anim-fade-up" data-delay="0.3" id="flip-card">
+        <div class="flip-card-inner">
+          <!-- Front -->
+          <div class="flip-face flip-front">
+            <div class="invite-front-art">
+              <img src="assets/mandala.svg" class="ifront-mandala" alt="" />
+              <p class="ifront-blessing">திருமண அழைப்பிதழ்</p>
+              <div class="ifront-names">
+                <span>SUBRAMANI</span>
+                <span class="ifront-amp">&amp;</span>
+                <span>VARSHINI</span>
+              </div>
+              <p class="ifront-date">28· 05 · 2026</p>
+              <p class="ifront-hint">✦ Click to open ✦</p>
+            </div>
+          </div>
+
+          <!-- Back -->
+          <div class="flip-face flip-back">
+            <div class="invite-inner-frame">
+              <p class="ibk-blessing">திருமண அழைப்பிதழ்</p>
+              <div class="ibk-divider"></div>
+              <p class="ibk-subtitle">WITH JOYFUL HEARTS</p>
+              <h3 class="ibk-heading">We invite you to share our joy</h3>
+              <p class="ibk-body">
+                As we embark on this sacred journey together, we joyfully request the honor
+                of your presence and blessings at the wedding ceremony of our beloved children
+              </p>
+              <div class="ibk-names">
+                <span class="ibk-name">SUBRAMANI</span>
+                <span class="ibk-amp">&amp;</span>
+                <span class="ibk-name">VARSHINI</span>
+              </div>
+              <p class="ibk-parents">
+                Daughter of Mr. &amp; Mrs. Sivakami<br />
+                Son of Mr. &amp; Mr. Paulraj
+              </p>
+              <div class="ibk-divider"></div>
+              <p class="ibk-date-place">28th Mayy 2026 · Kolarpatti, </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="flip-hint-text">Click the card to open the invitation</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ COUPLE ══════════════════════ -->
+  <section id="couple" class="section couple-section">
+    <div class="section-inner">
+      <div class="sec-header anim-fade-up" data-delay="0.1">
+        <img src="assets/mandala.svg" class="sec-mandala anim-spin-in" alt="" />
+        <h2 class="sec-title">The Couple</h2>
+        <p class="sec-script">Two Hearts, One Soul</p>
+      </div>
+
+      <div class="couple-layout">
+        <!-- Groom -->
+        <div class="couple-portrait anim-slide-left" data-delay="0.2">
+          <div class="portrait-frame">
+            <div class="portrait-img bride-img"></div>
+            <div class="portrait-shimmer"></div>
+            <img src="assets/floral.svg" class="portrait-floral pf-bl" alt="" />
+          </div>
+          <div class="portrait-info">
+            <h3 class="portrait-name">SUBRAMANI</h3>
+            <p class="portrait-role">The Groom</p>
+            <p class="portrait-desc">Devoted, radiant, and full of love.</p>
+          </div>
+        </div>
+
+        <!-- Center -->
+        <div class="couple-center-col anim-fade-up" data-delay="0.4">
+          <div class="center-heart-wrap">
+            <svg class="center-heart" viewBox="0 0 100 90" fill="none">
+              <path
+                d="M50 85C50 85 5 52 5 27C5 12 16 3 28 3C37 3 45 8 50 15C55 8 63 3 72 3C84 3 95 12 95 27C95 52 50 85 50 85Z"
+                fill="none" stroke="#b8922a" stroke-width="2" />
+            </svg>
+            <span class="center-script-text">Together</span>
+          </div>
+          <p class="center-verse">"Where there is love,<br />there is life."</p>
+        </div>
+
+        <!-- Bride -->
+        <div class="couple-portrait anim-slide-right" data-delay="0.3">
+          <div class="portrait-frame">
+            <div class="portrait-img groom-img"></div>
+            <div class="portrait-shimmer"></div>
+            <img src="assets/floral.svg" class="portrait-floral pf-tr" alt="" />
+          </div>
+          <div class="portrait-info">
+            <h3 class="portrait-name">VARSHINI</h3>
+            <p class="portrait-role">The Bride</p>
+            <p class="portrait-desc">Graceful, warm, and full of joy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ THEIR STORY ══════════════════════ -->
+  <section class="story-section">
+    <div class="story-bg-layer" id="story-bg"></div>
+    <div class="story-overlay"></div>
+    <div class="story-content anim-fade-up" data-delay="0.2">
+      <p class="story-eyebrow">✦ Our Story ✦</p>
+      <h2 class="story-quote">"Two souls with but a single thought,<br />two hearts that beat as one."</h2>
+      <div class="story-pills">
+        <span class="story-pill">First Meeting</span>
+        <span class="story-pill-dot">✦</span>
+        <span class="story-pill">First Date</span>
+        <span class="story-pill-dot">✦</span>
+        <span class="story-pill">Forever</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ EVENTS ══════════════════════ -->
+  <section id="events" class="section events-section">
+    <div class="section-inner">
+      <div class="sec-header anim-fade-up" data-delay="0.1">
+        <img src="assets/mandala.svg" class="sec-mandala anim-spin-in" alt="" />
+        <h2 class="sec-title">Celebration Details</h2>
+        <p class="sec-script">Join Us</p>
+      </div>
+
+      <div class="events-grid">
+        <div class="event-card-new anim-fade-up" data-delay="0.2">
+          <div class="ecn-top">
+            <div class="ecn-icon">🪔</div>
+            <div class="ecn-badge">Morning</div>
+          </div>
+          <h3 class="ecn-title">Muhurtham</h3>
+          <div class="ecn-line"></div>
+          <p class="ecn-date">28th Mayy 2026</p>
+          <p class="ecn-time">4:00 AM onwards</p>
+          <p class="ecn-venue">Kolarpatti Temple Mandapam<br />Kolarpatti</p>
+          <div class="ecn-glow"></div>
+        </div>
+
+        <div class="event-card-new anim-fade-up" data-delay="0.35">
+          <div class="ecn-top">
+            <div class="ecn-icon">✨</div>
+            <div class="ecn-badge">Evening</div>
+          </div>
+          <h3 class="ecn-title">Reception</h3>
+          <div class="ecn-line"></div>
+          <p class="ecn-date">28th Mayy 2026</p>
+          <p class="ecn-time">7:00 PM onwards</p>
+          <p class="ecn-venue">Kolarpatti Temple Mandapam<br />Kolarpatti</p>
+          <div class="ecn-glow"></div>
+        </div>
+
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ GALLERY ══════════════════════ -->
+  <!--<section id="gallery" class="section gallery-section">
+    <div class="section-inner">
+      <div class="sec-header anim-fade-up" data-delay="0.1">
+        <img src="assets/mandala.svg" class="sec-mandala anim-spin-in" alt="" />
+        <h2 class="sec-title">Memories & Moments</h2>
+        <p class="sec-script">Our Story in Frames</p>
+      </div>
+      <div class="gallery-mosaic">
+        <div class="gm-item gm-big anim-fade-up" data-delay="0.1">
+          <div class="gm-img"
+            style="background-image:url('assets/couple-placeholder.jpg'); background-position:center left;"></div>
+          <div class="gm-overlay"><span>Together</span></div>
+        </div>
+        <div class="gm-item anim-fade-up" data-delay="0.2">
+          <div class="gm-img" style="background-image:url('assets/f1.jpg');"></div>
+          <div class="gm-overlay"><span>Bliss</span></div>
+        </div>
+        <div class="gm-item anim-fade-up" data-delay="0.3">
+          <div class="gm-img" style="background-image:url('assets/temple-hero.jpg');"></div>
+          <div class="gm-overlay"><span>Sacred</span></div>
+        </div>
+        <div class="gm-item gm-wide anim-fade-up" data-delay="0.4">
+          <div class="gm-img" style="background-image:url('assets/md.png'); background-position:center top;"></div>
+          <div class="gm-overlay"><span>Forever</span></div>
+        </div>
+        <div class="gm-item anim-fade-up" data-delay="0.5">
+          <div class="gm-img" style="background-image:url('assets/f.png'); background-position:center;"></div>
+          <div class="gm-overlay"><span>Love</span></div>
+        </div>
+      </div>
+    </div>
+  </section>-->
+
+  <!-- ══════════════════════ MAP / VENUE ══════════════════════ -->
+  <section id="location" class="section location-section">
+    <div class="section-inner">
+      <div class="sec-header anim-fade-up" data-delay="0.1">
+        <img src="assets/mandala.svg" class="sec-mandala anim-spin-in" alt="" />
+        <h2 class="sec-title">The Venue</h2>
+        <p class="sec-script">Join Us Here</p>
+      </div>
+
+      <div class="venue-card anim-fade-up" data-delay="0.3">
+        <div class="map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15548.718610011405!2d80.257523!3d13.03358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5267d32c02c63d%3A0xe5e754a6cb93f678!2sArulmigu%20Sri%20Kapaleeshwarar%20Temple!5e0!3m2!1sen!2sin!4v1711790000000!5m2!1sen!2sin"
+            width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        <div class="venue-info">
+          <div class="venue-text">
+            <p class="venue-name">Kolarpatti Temple Mandapam</p>
+            <p class="venue-addr">Kolarpatti, Kalvarpatty, Vedasandur</p>
+          </div>
+          <a href="https://maps.app.goo.gl/emgN2XGtzvTiHpDd6" target="_blank" class="btn-gold">
+            <span>Get Directions</span>
+            <svg viewBox="0 0 24 24" width="14" height="14">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ FOOTER ══════════════════════ -->
+  <footer class="site-footer">
+    <img src="assets/f1.jpg" class="footer-bg-img" alt="" />
+    <div class="footer-overlay"></div>
+    <div class="footer-inner anim-fade-up" data-delay="0.1">
+      <img src="assets/mandala.svg" class="footer-mandala spin-perpetual" alt="" />
+      <h2 class="footer-names">SUBRAMANI &amp; VARSHINI</h2>
+      <p class="footer-date">28 · 05 · 2026 · Kolarpatti</p>
+      <div class="footer-divider"></div>
+      <p class="footer-thanks">Thank you for celebrating love with us ♥</p>
+      <p class="footer-sub">With all our love and gratitude</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
